@@ -24,7 +24,6 @@ INSERT INTO courses (course_name, available_seats) VALUES
 ('Cơ sở dữ liệu', 22);
 
 
-
 create table enrollments_history (
     history_id int auto_increment primary key,
     student_id int not null,
@@ -34,8 +33,6 @@ create table enrollments_history (
     foreign key (student_id) references students(student_id),
     foreign key (course_id) references courses(course_id)
 );
-
-
 
 
 delimiter &&
@@ -61,7 +58,7 @@ begin
     where course_name = p_course_name
     limit 1;
     -- Kểm tra nếu sinh viên đã đăng ký môn học này chưa
-    select count(*) into v_already_registered 
+    select count(enrollment_id) into v_already_registered 
     from enrollments 
     where student_id = v_student_id and course_id = v_course_id;
 
@@ -96,6 +93,7 @@ begin
     end if;
 end 
 delimiter &&;
+
 call register_course('John Doe', 'Database Systems');
 select * from enrollments;
 select * from courses;
